@@ -182,7 +182,7 @@ struct MenuBarView: View {
                             .font(.system(size: 13, weight: .semibold))
                         Spacer()
                     }
-                    
+
                     Toggle(isOn: Binding(
                         get: { launchAtLogin.isEnabled },
                         set: { _ in launchAtLogin.toggle() }
@@ -202,6 +202,10 @@ struct MenuBarView: View {
                     RoundedRectangle(cornerRadius: 14, style: .continuous)
                         .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
                 )
+                .transition(.asymmetric(
+                    insertion: .scale(scale: 0.95, anchor: .top).combined(with: .opacity),
+                    removal: .scale(scale: 0.95, anchor: .top).combined(with: .opacity)
+                ))
             }
             
             // Bottom Actions
@@ -218,7 +222,7 @@ struct MenuBarView: View {
                 ControlCenterIconButton(
                     icon: "gearshape",
                     action: {
-                        withAnimation(.easeInOut(duration: 0.2)) {
+                        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
                             showingSettings.toggle()
                         }
                     }
@@ -285,10 +289,13 @@ struct MemoryStatsRow: View {
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 3)
                             .fill(Color.secondary.opacity(0.2))
-                            .frame(height: 6)
+                            .frame(width: geometry.size.width, height: 6)
 
                         LinearGradient(
-                            colors: UsageGradient.colors,
+                            colors: [
+                                Color(red: 0x6D / 255, green: 0xC1 / 255, blue: 0xFB / 255),
+                                Color(red: 0x3A / 255, green: 0x7C / 255, blue: 0xFE / 255)
+                            ],
                             startPoint: .leading,
                             endPoint: .trailing
                         )
@@ -297,31 +304,13 @@ struct MemoryStatsRow: View {
                             height: 6
                         )
                         .mask(
-                            HStack(spacing: 0) {
-                                RoundedRectangle(cornerRadius: 3)
-                                    .frame(
-                                        width: geometry.size.width
-                                            * CGFloat(usagePercentage / 100.0),
-                                        height: 6
-                                    )
-                                Spacer()
-                            }
-                        )
-                        .shadow(
-                            color: UsageGradient.colorForPercentage(
-                                usagePercentage
-                            ).opacity(0.6),
-                            radius: 4,
-                            x: 0,
-                            y: 0
-                        )
-                        .shadow(
-                            color: UsageGradient.colorForPercentage(
-                                usagePercentage
-                            ).opacity(0.3),
-                            radius: 8,
-                            x: 0,
-                            y: 0
+                            RoundedRectangle(cornerRadius: 3)
+                                .frame(
+                                    width: geometry.size.width
+                                        * CGFloat(usagePercentage / 100.0),
+                                    height: 6
+                                )
+                                .frame(width: geometry.size.width, height: 6, alignment: .leading)
                         )
                     }
                 }.padding(.horizontal, 2)
@@ -373,25 +362,9 @@ struct VerticalBarGraph: View {
             let barWidth = geometry.size.width / CGFloat(history.count)
 
             ZStack(alignment: .bottom) {
-                // Background with glow
+                // Background
                 RoundedRectangle(cornerRadius: 6)
                     .fill(Color.secondary.opacity(0.15))
-                    .shadow(
-                        color: UsageGradient.colorForPercentage(
-                            history.max() ?? 0
-                        ).opacity(0.5),
-                        radius: 12,
-                        x: 0,
-                        y: 0
-                    )
-                    .shadow(
-                        color: UsageGradient.colorForPercentage(
-                            history.max() ?? 0
-                        ).opacity(0.3),
-                        radius: 6,
-                        x: 0,
-                        y: 0
-                    )
 
                 // Grid lines at 25%, 50%, 75%, 100%
                 Path { path in
@@ -415,16 +388,17 @@ struct VerticalBarGraph: View {
 
                 HStack(alignment: .bottom, spacing: 1) {
                     ForEach(Array(history.enumerated()), id: \.offset) {
-                        _,
-                            value in
+                        _, value in
                         let barHeight = max(
                             height * CGFloat(value / maxValue),
                             2
                         )
 
-                        // Full height gradient masked to show only the bottom portion
                         LinearGradient(
-                            colors: UsageGradient.colors,
+                            colors: [
+                                Color(red: 0x6D / 255, green: 0xC1 / 255, blue: 0xFB / 255),
+                                Color(red: 0x3A / 255, green: 0x7C / 255, blue: 0xFE / 255)
+                            ],
                             startPoint: .bottom,
                             endPoint: .top
                         )
@@ -436,20 +410,6 @@ struct VerticalBarGraph: View {
                                     .frame(height: barHeight)
                             }
                             .frame(height: height)
-                        )
-                        .shadow(
-                            color: UsageGradient.colorForPercentage(value)
-                                .opacity(0.6),
-                            radius: 3,
-                            x: 0,
-                            y: 0
-                        )
-                        .shadow(
-                            color: UsageGradient.colorForPercentage(value)
-                                .opacity(0.1),
-                            radius: 6,
-                            x: 0,
-                            y: 0
                         )
                     }
                 }
@@ -478,44 +438,35 @@ struct MemoryDetailRow: View {
                 .monospacedDigit()
 
             if showBar {
-                GeometryReader { _ in
-                    ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 2)
-                            .fill(Color.secondary.opacity(0.2))
-                            .frame(width: 80, height: 4)
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(Color.secondary.opacity(0.2))
+                        .frame(width: 80, height: 4)
 
-                        LinearGradient(
-                            colors: UsageGradient.colors,
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        )
-                        .frame(
-                            width: 80,
-                            height: 4
-                        )
-                        .mask(
-                            HStack(spacing: 0) {
-                                RoundedRectangle(cornerRadius: 2)
-                                    .frame(
-                                        width: 80
-                                            * CGFloat(
-                                                min(barPercentage, 100.0)
-                                                    / 100.0
-                                            ),
-                                        height: 4
-                                    )
-                                Spacer()
-                            }
-                        )
-                        .shadow(
-                            color: UsageGradient.colorForPercentage(
-                                barPercentage
-                            ).opacity(0.5),
-                            radius: 3,
-                            x: 0,
-                            y: 0
-                        )
-                    }
+                    LinearGradient(
+                        colors: [
+                            Color(red: 0x6D / 255, green: 0xC1 / 255, blue: 0xFB / 255),
+                            Color(red: 0x3A / 255, green: 0x7C / 255, blue: 0xFE / 255)
+                        ],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                    .frame(
+                        width: 80,
+                        height: 4
+                    )
+                    .mask(
+                        RoundedRectangle(cornerRadius: 2)
+                            .frame(
+                                width: 80
+                                    * CGFloat(
+                                        min(barPercentage, 100.0)
+                                            / 100.0
+                                    ),
+                                height: 4
+                            )
+                            .frame(width: 80, height: 4, alignment: .leading)
+                    )
                 }
                 .frame(width: 80, height: 4)
             }
@@ -569,10 +520,13 @@ struct CPUStatsRow: View {
                         ZStack(alignment: .leading) {
                             RoundedRectangle(cornerRadius: 3)
                                 .fill(Color.secondary.opacity(0.2))
-                                .frame(height: 6)
+                                .frame(width: geometry.size.width, height: 6)
 
                             LinearGradient(
-                                colors: UsageGradient.colors,
+                                colors: [
+                                    Color(red: 0x6D / 255, green: 0xC1 / 255, blue: 0xFB / 255),
+                                    Color(red: 0x3A / 255, green: 0x7C / 255, blue: 0xFE / 255)
+                                ],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
@@ -581,33 +535,13 @@ struct CPUStatsRow: View {
                                 height: 6
                             )
                             .mask(
-                                HStack(spacing: 0) {
-                                    RoundedRectangle(cornerRadius: 3)
-                                        .frame(
-                                            width: geometry.size.width
-                                                * CGFloat(
-                                                    userPercentage / 100.0
-                                                ),
-                                            height: 6
-                                        )
-                                    Spacer()
-                                }
-                            )
-                            .shadow(
-                                color: UsageGradient.colorForPercentage(
-                                    userPercentage
-                                ).opacity(0.6),
-                                radius: 4,
-                                x: 0,
-                                y: 0
-                            )
-                            .shadow(
-                                color: UsageGradient.colorForPercentage(
-                                    userPercentage
-                                ).opacity(0.3),
-                                radius: 8,
-                                x: 0,
-                                y: 0
+                                RoundedRectangle(cornerRadius: 3)
+                                    .frame(
+                                        width: geometry.size.width
+                                            * CGFloat(userPercentage / 100.0),
+                                        height: 6
+                                    )
+                                    .frame(width: geometry.size.width, height: 6, alignment: .leading)
                             )
                         }
                     }
@@ -631,10 +565,13 @@ struct CPUStatsRow: View {
                         ZStack(alignment: .leading) {
                             RoundedRectangle(cornerRadius: 3)
                                 .fill(Color.secondary.opacity(0.2))
-                                .frame(height: 6)
+                                .frame(width: geometry.size.width, height: 6)
 
                             LinearGradient(
-                                colors: UsageGradient.colors,
+                                colors: [
+                                    Color(red: 0x6D / 255, green: 0xC1 / 255, blue: 0xFB / 255),
+                                    Color(red: 0x3A / 255, green: 0x7C / 255, blue: 0xFE / 255)
+                                ],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
@@ -643,33 +580,13 @@ struct CPUStatsRow: View {
                                 height: 6
                             )
                             .mask(
-                                HStack(spacing: 0) {
-                                    RoundedRectangle(cornerRadius: 3)
-                                        .frame(
-                                            width: geometry.size.width
-                                                * CGFloat(
-                                                    systemPercentage / 100.0
-                                                ),
-                                            height: 6
-                                        )
-                                    Spacer()
-                                }
-                            )
-                            .shadow(
-                                color: UsageGradient.colorForPercentage(
-                                    systemPercentage
-                                ).opacity(0.6),
-                                radius: 4,
-                                x: 0,
-                                y: 0
-                            )
-                            .shadow(
-                                color: UsageGradient.colorForPercentage(
-                                    systemPercentage
-                                ).opacity(0.3),
-                                radius: 8,
-                                x: 0,
-                                y: 0
+                                RoundedRectangle(cornerRadius: 3)
+                                    .frame(
+                                        width: geometry.size.width
+                                            * CGFloat(systemPercentage / 100.0),
+                                        height: 6
+                                    )
+                                    .frame(width: geometry.size.width, height: 6, alignment: .leading)
                             )
                         }
                     }
@@ -719,43 +636,28 @@ struct BatteryStatsRow: View {
                         ZStack(alignment: .leading) {
                             RoundedRectangle(cornerRadius: 3)
                                 .fill(Color.secondary.opacity(0.2))
-                                .frame(height: 6)
+                                .frame(width: geometry.size.width, height: 6)
 
-                            BatteryGradient.gradientForPercentage(
-                                batteryPercentage
+                            LinearGradient(
+                                colors: [
+                                    Color(red: 0xD1 / 255, green: 0xF2 / 255, blue: 0x67 / 255),
+                                    Color(red: 0x71 / 255, green: 0xDD / 255, blue: 0x67 / 255)
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
                             )
                             .frame(
                                 width: geometry.size.width,
                                 height: 6
                             )
                             .mask(
-                                HStack(spacing: 0) {
-                                    RoundedRectangle(cornerRadius: 3)
-                                        .frame(
-                                            width: geometry.size.width
-                                                * CGFloat(
-                                                    batteryPercentage / 100.0
-                                                ),
-                                            height: 6
-                                        )
-                                    Spacer()
-                                }
-                            )
-                            .shadow(
-                                color: BatteryGradient.colorForPercentage(
-                                    batteryPercentage
-                                ).opacity(0.6),
-                                radius: 4,
-                                x: 0,
-                                y: 0
-                            )
-                            .shadow(
-                                color: BatteryGradient.colorForPercentage(
-                                    batteryPercentage
-                                ).opacity(0.3),
-                                radius: 8,
-                                x: 0,
-                                y: 0
+                                RoundedRectangle(cornerRadius: 3)
+                                    .frame(
+                                        width: geometry.size.width
+                                            * CGFloat(batteryPercentage / 100.0),
+                                        height: 6
+                                    )
+                                    .frame(width: geometry.size.width, height: 6, alignment: .leading)
                             )
                         }
                     }

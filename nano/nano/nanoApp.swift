@@ -36,19 +36,16 @@ struct MenuBarCPULabel: View {
         if let combinedImage = createCombinedImage() {
             Image(nsImage: combinedImage)
                 .resizable()
-                .frame(width: 85, height: 16)
+                .frame(width: 50, height: 16)
                 .focusable(false)
         }
     }
 
     private func createCombinedImage() -> NSImage? {
         let graphWidth: CGFloat = 50
-        let textWidth: CGFloat = 35
-        let spacing: CGFloat = 6
-        let totalWidth = graphWidth + spacing + textWidth
         let height: CGFloat = 16
 
-        let size = NSSize(width: totalWidth, height: height)
+        let size = NSSize(width: graphWidth, height: height)
         let image = NSImage(size: size)
 
         image.lockFocus()
@@ -63,63 +60,49 @@ struct MenuBarCPULabel: View {
         )
         bgPath.fill()
 
-        // Draw bars
+        // Subtle border
+        NSColor.white.withAlphaComponent(0.3).setStroke()
+        let borderPath = NSBezierPath(
+            roundedRect: NSRect(x: 0.5, y: 0.5, width: graphWidth - 1, height: height - 1),
+            xRadius: 3,
+            yRadius: 3
+        )
+        borderPath.lineWidth = 1
+        borderPath.stroke()
+
+        // Draw smooth area chart
         let last30 = Array(cpuHistory.suffix(30))
         if !last30.isEmpty {
             let barWidth: CGFloat = graphWidth / CGFloat(last30.count)
-            let barSpacing: CGFloat = 0.1
-            let actualBarWidth = barWidth - barSpacing
 
             NSColor.white.setFill()
 
-            for (index, value) in last30.enumerated() {
-                let x = CGFloat(index) * barWidth + barSpacing / 2
-                let normalizedValue = min(max(value, 0), 100) / 100.0
-                let barHeight = max(height * normalizedValue, 1.5)
-                let y = 0.0
+            let path = NSBezierPath()
 
-                let barRect = NSRect(
-                    x: x,
-                    y: y,
-                    width: actualBarWidth,
-                    height: barHeight
-                )
+            // Start from bottom left corner
+            path.move(to: NSPoint(x: 0, y: 0))
 
-                let barPath = NSBezierPath(
-                    roundedRect: barRect,
-                    xRadius: 0.5,
-                    yRadius: 0.5
-                )
-                barPath.fill()
+            // Draw the area - first point
+            if let firstValue = last30.first {
+                let normalizedValue = min(max(firstValue, 0), 100) / 100.0
+                let y = height * normalizedValue
+                path.line(to: NSPoint(x: 0, y: y))
             }
+
+            // Draw the rest of the points
+            for (index, value) in last30.enumerated() {
+                let x = CGFloat(index) * barWidth
+                let normalizedValue = min(max(value, 0), 100) / 100.0
+                let y = height * normalizedValue
+                path.line(to: NSPoint(x: x, y: y))
+            }
+
+            // Close the path back to bottom right corner
+            path.line(to: NSPoint(x: graphWidth, y: 0))
+            path.close()
+
+            path.fill()
         }
-
-        // Draw text
-        let text = "\(Int(cpuPercentage))%"
-        let textX = graphWidth + spacing
-
-        let paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.alignment = .left
-
-        let attributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.monospacedDigitSystemFont(ofSize: 13, weight: .regular),
-            .foregroundColor: NSColor.white,
-            .paragraphStyle: paragraphStyle,
-        ]
-
-        let attributedString = NSAttributedString(
-            string: text,
-            attributes: attributes
-        )
-
-        let textRect = NSRect(
-            x: textX,
-            y: (height - 13) / 2 + 2,
-            width: textWidth,
-            height: 13
-        )
-
-        attributedString.draw(in: textRect)
 
         return image
     }
