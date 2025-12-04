@@ -1,5 +1,4 @@
 import Combine
-
 // macos/Sources/UI/MenuBarView.swift
 import SwiftUI
 
@@ -7,11 +6,11 @@ import SwiftUI
 
 enum UsageGradient {
     static let colors: [Color] = [
-        Color(red: 0.0, green: 0.5, blue: 1.0), // Blue (0%)
-        Color(red: 0.0, green: 0.8, blue: 1.0), // Cyan (25%)
-        Color(red: 1.0, green: 0.9, blue: 0.0), // Yellow (50%)
-        Color(red: 1.0, green: 0.6, blue: 0.0), // Orange (75%)
-        Color(red: 1.0, green: 0.2, blue: 0.0), // Red (100%)
+        Color(red: 0.0, green: 0.5, blue: 1.0),  // Blue (0%)
+        Color(red: 0.0, green: 0.8, blue: 1.0),  // Cyan (25%)
+        Color(red: 1.0, green: 0.9, blue: 0.0),  // Yellow (50%)
+        Color(red: 1.0, green: 0.6, blue: 0.0),  // Orange (75%)
+        Color(red: 1.0, green: 0.2, blue: 0.0),  // Red (100%)
     ]
 
     static let gradient = LinearGradient(
@@ -28,7 +27,7 @@ enum UsageGradient {
 
     static func colorForPercentage(_ percentage: Double) -> Color {
         let clamped = min(max(percentage, 0), 100)
-        let scaled = clamped / 25.0 // 0-4 range for 5 stops
+        let scaled = clamped / 25.0  // 0-4 range for 5 stops
         let index = Int(scaled)
         let _ = scaled - Double(index)
 
@@ -48,8 +47,8 @@ enum BatteryGradient {
             // 80%-100%: light green to green
             return LinearGradient(
                 colors: [
-                    Color(red: 0.6, green: 0.9, blue: 0.6), // Light green
-                    Color(red: 0.2, green: 0.8, blue: 0.2), // Green
+                    Color(red: 0.6, green: 0.9, blue: 0.6),  // Light green
+                    Color(red: 0.2, green: 0.8, blue: 0.2),  // Green
                 ],
                 startPoint: .leading,
                 endPoint: .trailing
@@ -58,8 +57,8 @@ enum BatteryGradient {
             // 60%-80%: yellow to light green
             return LinearGradient(
                 colors: [
-                    Color(red: 1.0, green: 0.9, blue: 0.0), // Yellow
-                    Color(red: 0.6, green: 0.9, blue: 0.6), // Light green
+                    Color(red: 1.0, green: 0.9, blue: 0.0),  // Yellow
+                    Color(red: 0.6, green: 0.9, blue: 0.6),  // Light green
                 ],
                 startPoint: .leading,
                 endPoint: .trailing
@@ -68,8 +67,8 @@ enum BatteryGradient {
             // 40%-60%: orange to yellow
             return LinearGradient(
                 colors: [
-                    Color(red: 1.0, green: 0.6, blue: 0.0), // Orange
-                    Color(red: 1.0, green: 0.9, blue: 0.0), // Yellow
+                    Color(red: 1.0, green: 0.6, blue: 0.0),  // Orange
+                    Color(red: 1.0, green: 0.9, blue: 0.0),  // Yellow
                 ],
                 startPoint: .leading,
                 endPoint: .trailing
@@ -78,8 +77,8 @@ enum BatteryGradient {
             // 20%-40%: red to orange
             return LinearGradient(
                 colors: [
-                    Color(red: 1.0, green: 0.2, blue: 0.0), // Red
-                    Color(red: 1.0, green: 0.6, blue: 0.0), // Orange
+                    Color(red: 1.0, green: 0.2, blue: 0.0),  // Red
+                    Color(red: 1.0, green: 0.6, blue: 0.0),  // Orange
                 ],
                 startPoint: .leading,
                 endPoint: .trailing
@@ -88,8 +87,8 @@ enum BatteryGradient {
             // 0%-20%: dark red to red
             return LinearGradient(
                 colors: [
-                    Color(red: 0.8, green: 0.1, blue: 0.1), // Dark red
-                    Color(red: 1.0, green: 0.2, blue: 0.0), // Red
+                    Color(red: 0.8, green: 0.1, blue: 0.1),  // Dark red
+                    Color(red: 1.0, green: 0.2, blue: 0.0),  // Red
                 ],
                 startPoint: .leading,
                 endPoint: .trailing
@@ -101,15 +100,15 @@ enum BatteryGradient {
         let clamped = min(max(percentage, 0), 100)
 
         if clamped >= 80 {
-            return Color(red: 0.2, green: 0.8, blue: 0.2) // Green
+            return Color(red: 0.2, green: 0.8, blue: 0.2)  // Green
         } else if clamped >= 60 {
-            return Color(red: 0.6, green: 0.9, blue: 0.6) // Light green
+            return Color(red: 0.6, green: 0.9, blue: 0.6)  // Light green
         } else if clamped >= 40 {
-            return Color(red: 1.0, green: 0.9, blue: 0.0) // Yellow
+            return Color(red: 1.0, green: 0.9, blue: 0.0)  // Yellow
         } else if clamped >= 20 {
-            return Color(red: 1.0, green: 0.6, blue: 0.0) // Orange
+            return Color(red: 1.0, green: 0.6, blue: 0.0)  // Orange
         } else {
-            return Color(red: 1.0, green: 0.2, blue: 0.0) // Red
+            return Color(red: 1.0, green: 0.2, blue: 0.0)  // Red
         }
     }
 }
@@ -183,10 +182,12 @@ struct MenuBarView: View {
                         Spacer()
                     }
 
-                    Toggle(isOn: Binding(
-                        get: { launchAtLogin.isEnabled },
-                        set: { _ in launchAtLogin.toggle() }
-                    )) {
+                    Toggle(
+                        isOn: Binding(
+                            get: { launchAtLogin.isEnabled },
+                            set: { _ in launchAtLogin.toggle() }
+                        )
+                    ) {
                         Text("Launch at Login")
                             .font(.system(size: 12))
                     }
@@ -202,12 +203,18 @@ struct MenuBarView: View {
                     RoundedRectangle(cornerRadius: 14, style: .continuous)
                         .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
                 )
-                .transition(.asymmetric(
-                    insertion: .scale(scale: 0.95, anchor: .top).combined(with: .opacity),
-                    removal: .scale(scale: 0.95, anchor: .top).combined(with: .opacity)
-                ))
+                .transition(
+                    .asymmetric(
+                        insertion: .scale(scale: 0.95, anchor: .top).combined(
+                            with: .opacity
+                        ),
+                        removal: .scale(scale: 0.95, anchor: .top).combined(
+                            with: .opacity
+                        )
+                    )
+                )
             }
-            
+
             // Bottom Actions
             HStack(spacing: 12) {
                 ControlCenterIconButton(
@@ -218,11 +225,13 @@ struct MenuBarView: View {
                 )
 
                 Spacer()
-                
+
                 ControlCenterIconButton(
                     icon: "gearshape",
                     action: {
-                        withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                        withAnimation(
+                            .spring(response: 0.35, dampingFraction: 0.8)
+                        ) {
                             showingSettings.toggle()
                         }
                     }
@@ -271,19 +280,7 @@ struct MemoryStatsRow: View {
                 .padding(.horizontal, 16)
 
             // Pressure bar
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    Text("Pressure")
-                        .font(.system(size: 13, weight: .medium))
-                        .foregroundStyle(.secondary)
-
-                    Spacer()
-
-                    Text("\(Int(usagePercentage))%")
-                        .font(.system(size: 13, weight: .semibold))
-                        .foregroundStyle(.primary)
-                        .monospacedDigit()
-                }
+            VStack(alignment: .leading, spacing: 6) {
 
                 GeometryReader { geometry in
                     ZStack(alignment: .leading) {
@@ -293,8 +290,16 @@ struct MemoryStatsRow: View {
 
                         LinearGradient(
                             colors: [
-                                Color(red: 0x6D / 255, green: 0xC1 / 255, blue: 0xFB / 255),
-                                Color(red: 0x3A / 255, green: 0x7C / 255, blue: 0xFE / 255)
+                                Color(
+                                    red: 0x6D / 255,
+                                    green: 0xC1 / 255,
+                                    blue: 0xFB / 255
+                                ),
+                                Color(
+                                    red: 0x3A / 255,
+                                    green: 0x7C / 255,
+                                    blue: 0xFE / 255
+                                ),
                             ],
                             startPoint: .leading,
                             endPoint: .trailing
@@ -310,31 +315,48 @@ struct MemoryStatsRow: View {
                                         * CGFloat(usagePercentage / 100.0),
                                     height: 6
                                 )
-                                .frame(width: geometry.size.width, height: 6, alignment: .leading)
+                                .frame(
+                                    width: geometry.size.width,
+                                    height: 6,
+                                    alignment: .leading
+                                )
                         )
                     }
                 }.padding(.horizontal, 2)
                     .frame(height: 6)
             }
             .padding(.horizontal, 16)
+            
+            HStack(alignment: .firstTextBaseline, spacing: 8) {
+                Text("Pressure")
+                    .font(.system(size: 13, weight: .medium))
+                    .foregroundStyle(.secondary)
+
+                Spacer()
+
+                if let breakdown = memoryBreakdown {
+                    Text(formatBytesGB(breakdown.used_bytes))
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundStyle(.primary)
+                        .monospacedDigit()
+                }
+
+                Text("\(Int(usagePercentage))%")
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(.primary)
+                    .monospacedDigit()
+            }
+            .padding(.horizontal, 16)
 
             if let breakdown = memoryBreakdown {
-                VStack(alignment: .leading, spacing: 8) {
-                    MemoryDetailRow(
-                        label: "Active",
-                        value: formatBytesGB(breakdown.active_bytes),
-                        showBar: false
-                    )
-
-                    MemoryDetailRow(
-                        label: "Swap File",
-                        value: formatBytesGB(breakdown.swap_used_bytes),
-                        showBar: true,
-                        barPercentage: breakdown.swap_total_bytes > 0
-                            ? Double(breakdown.swap_used_bytes)
+                MemoryDetailRow(
+                    label: "Swap File",
+                    value: formatBytesGB(breakdown.swap_used_bytes),
+                    showBar: true,
+                    barPercentage: breakdown.swap_total_bytes > 0
+                        ? Double(breakdown.swap_used_bytes)
                             / Double(breakdown.swap_total_bytes) * 100.0 : 0
-                    )
-                }
+                )
                 .padding(.horizontal, 16)
                 .padding(.bottom, 12)
             }
@@ -358,7 +380,7 @@ struct VerticalBarGraph: View {
 
     var body: some View {
         GeometryReader { geometry in
-            let maxValue = 100.0 // Percentage scale
+            let maxValue = 100.0  // Percentage scale
             let barWidth = geometry.size.width / CGFloat(history.count)
 
             ZStack(alignment: .bottom) {
@@ -388,7 +410,8 @@ struct VerticalBarGraph: View {
 
                 HStack(alignment: .bottom, spacing: 1) {
                     ForEach(Array(history.enumerated()), id: \.offset) {
-                        _, value in
+                        _,
+                        value in
                         let barHeight = max(
                             height * CGFloat(value / maxValue),
                             2
@@ -396,8 +419,16 @@ struct VerticalBarGraph: View {
 
                         LinearGradient(
                             colors: [
-                                Color(red: 0x6D / 255, green: 0xC1 / 255, blue: 0xFB / 255),
-                                Color(red: 0x3A / 255, green: 0x7C / 255, blue: 0xFE / 255)
+                                Color(
+                                    red: 0x6D / 255,
+                                    green: 0xC1 / 255,
+                                    blue: 0xFB / 255
+                                ),
+                                Color(
+                                    red: 0x3A / 255,
+                                    green: 0x7C / 255,
+                                    blue: 0xFE / 255
+                                ),
                             ],
                             startPoint: .bottom,
                             endPoint: .top
@@ -426,11 +457,12 @@ struct MemoryDetailRow: View {
     var barPercentage: Double = 0
 
     var body: some View {
-        HStack {
+        HStack(alignment: .firstTextBaseline, spacing: 8) {
             Text(label)
                 .font(.system(size: 13, weight: .medium))
                 .foregroundStyle(.secondary)
-                .frame(width: 100, alignment: .leading)
+
+            Spacer()
 
             Text(value)
                 .font(.system(size: 13, weight: .semibold))
@@ -445,8 +477,16 @@ struct MemoryDetailRow: View {
 
                     LinearGradient(
                         colors: [
-                            Color(red: 0x6D / 255, green: 0xC1 / 255, blue: 0xFB / 255),
-                            Color(red: 0x3A / 255, green: 0x7C / 255, blue: 0xFE / 255)
+                            Color(
+                                red: 0x6D / 255,
+                                green: 0xC1 / 255,
+                                blue: 0xFB / 255
+                            ),
+                            Color(
+                                red: 0x3A / 255,
+                                green: 0x7C / 255,
+                                blue: 0xFE / 255
+                            ),
                         ],
                         startPoint: .leading,
                         endPoint: .trailing
@@ -524,8 +564,16 @@ struct CPUStatsRow: View {
 
                             LinearGradient(
                                 colors: [
-                                    Color(red: 0x6D / 255, green: 0xC1 / 255, blue: 0xFB / 255),
-                                    Color(red: 0x3A / 255, green: 0x7C / 255, blue: 0xFE / 255)
+                                    Color(
+                                        red: 0x6D / 255,
+                                        green: 0xC1 / 255,
+                                        blue: 0xFB / 255
+                                    ),
+                                    Color(
+                                        red: 0x3A / 255,
+                                        green: 0x7C / 255,
+                                        blue: 0xFE / 255
+                                    ),
                                 ],
                                 startPoint: .leading,
                                 endPoint: .trailing
@@ -541,7 +589,11 @@ struct CPUStatsRow: View {
                                             * CGFloat(userPercentage / 100.0),
                                         height: 6
                                     )
-                                    .frame(width: geometry.size.width, height: 6, alignment: .leading)
+                                    .frame(
+                                        width: geometry.size.width,
+                                        height: 6,
+                                        alignment: .leading
+                                    )
                             )
                         }
                     }
@@ -569,8 +621,16 @@ struct CPUStatsRow: View {
 
                             LinearGradient(
                                 colors: [
-                                    Color(red: 0x6D / 255, green: 0xC1 / 255, blue: 0xFB / 255),
-                                    Color(red: 0x3A / 255, green: 0x7C / 255, blue: 0xFE / 255)
+                                    Color(
+                                        red: 0x6D / 255,
+                                        green: 0xC1 / 255,
+                                        blue: 0xFB / 255
+                                    ),
+                                    Color(
+                                        red: 0x3A / 255,
+                                        green: 0x7C / 255,
+                                        blue: 0xFE / 255
+                                    ),
                                 ],
                                 startPoint: .leading,
                                 endPoint: .trailing
@@ -586,7 +646,11 @@ struct CPUStatsRow: View {
                                             * CGFloat(systemPercentage / 100.0),
                                         height: 6
                                     )
-                                    .frame(width: geometry.size.width, height: 6, alignment: .leading)
+                                    .frame(
+                                        width: geometry.size.width,
+                                        height: 6,
+                                        alignment: .leading
+                                    )
                             )
                         }
                     }
@@ -640,8 +704,16 @@ struct BatteryStatsRow: View {
 
                             LinearGradient(
                                 colors: [
-                                    Color(red: 0xD1 / 255, green: 0xF2 / 255, blue: 0x67 / 255),
-                                    Color(red: 0x71 / 255, green: 0xDD / 255, blue: 0x67 / 255)
+                                    Color(
+                                        red: 0xD1 / 255,
+                                        green: 0xF2 / 255,
+                                        blue: 0x67 / 255
+                                    ),
+                                    Color(
+                                        red: 0x71 / 255,
+                                        green: 0xDD / 255,
+                                        blue: 0x67 / 255
+                                    ),
                                 ],
                                 startPoint: .leading,
                                 endPoint: .trailing
@@ -657,7 +729,11 @@ struct BatteryStatsRow: View {
                                             * CGFloat(batteryPercentage / 100.0),
                                         height: 6
                                     )
-                                    .frame(width: geometry.size.width, height: 6, alignment: .leading)
+                                    .frame(
+                                        width: geometry.size.width,
+                                        height: 6,
+                                        alignment: .leading
+                                    )
                             )
                         }
                     }
@@ -826,7 +902,8 @@ public class MemoryDataModel: ObservableObject {
     }
 
     private func startPeriodicUpdates() {
-        updateTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+        updateTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) {
+            [weak self] _ in
             self?.refresh()
         }
     }
