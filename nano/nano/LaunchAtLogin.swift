@@ -5,12 +5,12 @@
 //  Created by tnixc on 5/10/2025.
 //
 
-import SwiftUI
-import ServiceManagement
 import Combine
+import ServiceManagement
+import SwiftUI
 
 /// Helper for managing launch at login functionality
-struct LaunchAtLogin {
+enum LaunchAtLogin {
     /// Check if the app is set to launch at login
     static var isEnabled: Bool {
         if #available(macOS 13.0, *) {
@@ -20,7 +20,7 @@ struct LaunchAtLogin {
             return false
         }
     }
-    
+
     /// Enable or disable launch at login
     /// - Parameter enabled: Whether to enable launch at login
     /// - Throws: Error if the operation fails
@@ -47,11 +47,11 @@ struct LaunchAtLogin {
 @MainActor
 class LaunchAtLoginViewModel: ObservableObject {
     @Published var isEnabled: Bool = false
-    
+
     init() {
-        self.isEnabled = LaunchAtLogin.isEnabled
+        isEnabled = LaunchAtLogin.isEnabled
     }
-    
+
     func toggle() {
         do {
             try LaunchAtLogin.setEnabled(!isEnabled)

@@ -6,7 +6,7 @@ struct VerticalBarGraph: View {
 
     var body: some View {
         GeometryReader { geometry in
-            let maxValue = 100.0  // Percentage scale
+            let maxValue = 100.0 // Percentage scale
             let barWidth = geometry.size.width / CGFloat(history.count)
 
             ZStack(alignment: .bottom) {
@@ -37,7 +37,7 @@ struct VerticalBarGraph: View {
                 HStack(alignment: .bottom, spacing: 1) {
                     ForEach(Array(history.enumerated()), id: \.offset) {
                         _,
-                        value in
+                            value in
                         let barHeight = max(
                             height * CGFloat(value / maxValue),
                             2

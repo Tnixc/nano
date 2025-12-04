@@ -27,7 +27,6 @@ struct MemoryStatsRow: View {
 
             // Pressure bar
             VStack(alignment: .leading, spacing: 6) {
-
                 GeometryReader { geometry in
                     ZStack(alignment: .leading) {
                         RoundedRectangle(cornerRadius: 3)
@@ -101,7 +100,7 @@ struct MemoryStatsRow: View {
                     showBar: true,
                     barPercentage: breakdown.swap_total_bytes > 0
                         ? Double(breakdown.swap_used_bytes)
-                            / Double(breakdown.swap_total_bytes) * 100.0 : 0
+                        / Double(breakdown.swap_total_bytes) * 100.0 : 0
                 )
                 .padding(.horizontal, 16)
                 .padding(.bottom, 12)
