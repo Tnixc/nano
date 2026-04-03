@@ -36,7 +36,7 @@ public final class CPUMonitor {
             &numCPUInfo
         )
 
-        guard result == KERN_SUCCESS, let cpuInfo = cpuInfo else {
+        guard result == KERN_SUCCESS, let cpuInfo else {
             return nil
         }
 

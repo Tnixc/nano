@@ -10,11 +10,9 @@ struct MemoryStatsRow: View {
             HStack {
                 Image(systemName: "memorychip")
                     .font(.system(size: 16, weight: .medium))
-                    .foregroundStyle(.secondary)
 
-                Text("RAM")
+                Text("Memory")
                     .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(.secondary)
 
                 Spacer()
             }
@@ -95,7 +93,7 @@ struct MemoryStatsRow: View {
 
             if let breakdown = memoryBreakdown {
                 MemoryDetailRow(
-                    label: "Swap File",
+                    label: "Swap",
                     value: formatBytesGB(breakdown.swap_used_bytes),
                     showBar: true,
                     barPercentage: breakdown.swap_total_bytes > 0

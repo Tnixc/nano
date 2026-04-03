@@ -13,11 +13,8 @@ struct BatteryStatsRow: View {
                     systemName: isCharging ? "battery.100.bolt" : "battery.100"
                 )
                 .font(.system(size: 16, weight: .medium))
-                .foregroundStyle(.secondary)
-
                 Text("Battery")
                     .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(.secondary)
 
                 Spacer()
             }

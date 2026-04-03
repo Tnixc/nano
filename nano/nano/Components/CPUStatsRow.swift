@@ -11,11 +11,9 @@ struct CPUStatsRow: View {
             HStack {
                 Image(systemName: "cpu")
                     .font(.system(size: 16, weight: .medium))
-                    .foregroundStyle(.secondary)
 
                 Text("CPU")
                     .font(.system(size: 13, weight: .medium))
-                    .foregroundStyle(.secondary)
 
                 Spacer()
             }

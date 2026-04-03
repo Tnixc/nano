@@ -14,10 +14,10 @@ enum LaunchAtLogin {
     /// Check if the app is set to launch at login
     static var isEnabled: Bool {
         if #available(macOS 13.0, *) {
-            return SMAppService.mainApp.status == .enabled
+            SMAppService.mainApp.status == .enabled
         } else {
             // Fallback for older macOS versions
-            return false
+            false
         }
     }
 

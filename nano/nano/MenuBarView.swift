@@ -7,7 +7,7 @@ struct MenuBarView: View {
     @State private var showingSettings = false
 
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 10) {
             // CPU Stats Card
             VStack(spacing: 0) {
                 CPUStatsRow(
@@ -76,7 +76,7 @@ struct MenuBarView: View {
             }
 
             // Bottom Actions
-            HStack(spacing: 12) {
+            HStack(spacing: 10) {
                 ControlCenterIconButton(
                     icon: "arrow.clockwise",
                     action: {
@@ -106,7 +106,7 @@ struct MenuBarView: View {
                 )
             }
         }
-        .padding(16)
+        .padding(10)
         .frame(width: 320)
         .focusable(false)
     }

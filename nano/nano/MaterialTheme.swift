@@ -17,7 +17,7 @@ enum NanoMaterialTheme {
             brightnessFactor: 0.025,
             blurRadius: 30
         ),
-        rimColor: (NSColor.rgbGray(gray: 1, alpha: 0.15), .clear),
+        rimColor: (NSColor.rgbGray(gray: 1, alpha: 0.1), .clear),
         rimWidth: (1, 0)
     )
 
@@ -56,8 +56,8 @@ private struct NanoMaterialCardModifier: ViewModifier {
 
 extension View {
     /// From MaterialView demo: masked outer shadow that doesn't muddy the panel interior.
-    func boxShadow<Mask: View>(
-        _ mask: Mask,
+    func boxShadow(
+        _ mask: some View,
         color: Color = Color(.sRGBLinear, white: 0, opacity: 0.33),
         radius: CGFloat,
         x: CGFloat = 0,
@@ -85,13 +85,13 @@ extension View {
     func panelShadow(cornerRadius: CGFloat, isDark: Bool) -> some View {
         boxShadow(
             RoundedRectangle(cornerRadius: cornerRadius, style: .continuous),
-            color: .black.opacity(isDark ? 0.5 : 0.25),
-            radius: 10,
-            y: 4
+            color: .black.opacity(0.18),
+            radius: isDark ? 2 : 10,
+            y: 2
         )
         .boxShadow(
             RoundedRectangle(cornerRadius: cornerRadius, style: .continuous),
-            color: .black.opacity(isDark ? 0.1 : 0.08),
+            color: .black.opacity(0.08),
             radius: 2,
             y: 0
         )

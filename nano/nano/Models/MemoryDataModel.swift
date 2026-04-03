@@ -64,7 +64,7 @@ public class MemoryDataModel: ObservableObject {
                 fromByteCount: Int64(breakdown.used_bytes)
             )
 
-            if let cpuUsage = cpuUsage {
+            if let cpuUsage {
                 self.cpuUserPercentage = cpuUsage.userPercentage
                 self.cpuSystemPercentage = cpuUsage.systemPercentage
                 self.cpuTotalPercentage = cpuUsage.totalPercentage
@@ -82,7 +82,7 @@ public class MemoryDataModel: ObservableObject {
             self.statusBarTitle = "􀫖 \(Int(breakdown.usage_percentage))%"
 
             // Update battery info
-            if let batteryInfo = batteryInfo {
+            if let batteryInfo {
                 self.batteryPercentage = batteryInfo.percentage
                 self.batteryIsCharging = batteryInfo.isCharging
                 self.batteryTimeRemaining = batteryInfo.timeRemaining
