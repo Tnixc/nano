@@ -37,7 +37,7 @@ struct VerticalBarGraph: View {
                 HStack(alignment: .bottom, spacing: 1) {
                     ForEach(Array(history.enumerated()), id: \.offset) {
                         _,
-                            value in
+                        value in
                         let barHeight = max(
                             height * CGFloat(value / maxValue),
                             2

@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		39FAB07A2E93411100303125 /* MaterialView in Frameworks */ = {isa = PBXBuildFile; productRef = 39FAB07B2E93411100303125 /* MaterialView */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		39FAB0682E93385200303125 /* nano.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nano.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39FAB07A2E93411100303125 /* MaterialView in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = nano;
 			packageProductDependencies = (
+				39FAB07B2E93411100303125 /* MaterialView */,
 			);
 			productName = nano;
 			productReference = 39FAB0682E93385200303125 /* nano.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = 39FAB05F2E93385200303125;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				39FAB07C2E93411100303125 /* XCRemoteSwiftPackageReference "MaterialView" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 39FAB0692E93385200303125 /* Products */;
 			projectDirPath = "";
@@ -123,6 +132,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		39FAB07C2E93411100303125 /* XCRemoteSwiftPackageReference "MaterialView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/OskarGroth/MaterialView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		39FAB07B2E93411100303125 /* MaterialView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 39FAB07C2E93411100303125 /* XCRemoteSwiftPackageReference "MaterialView" */;
+			productName = MaterialView;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCBuildConfiguration section */
 		39FAB0712E93385400303125 /* Debug */ = {

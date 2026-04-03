@@ -1,3 +1,4 @@
+import MaterialView
 import SwiftUI
 
 struct ControlCenterIconButton: View {
@@ -5,30 +6,30 @@ struct ControlCenterIconButton: View {
     let action: () -> Void
     var destructive: Bool = false
 
+    @Environment(\.colorScheme) private var colorScheme
     @State private var isHovered = false
     @State private var isPressed = false
 
     var body: some View {
         Button(action: action) {
             ZStack {
+                MaterialView(
+                    effect: NanoMaterialTheme.panelEffect(for: colorScheme),
+                    cornerRadius: 22
+                )
+
                 Circle()
                     .fill(
                         destructive
-                            ? (isHovered
-                                ? Color.red.opacity(0.15)
-                                : Color.secondary.opacity(0.08))
-                            : (isHovered
-                                ? Color.primary.opacity(0.12)
-                                : Color.secondary.opacity(0.08))
+                            ? (isHovered ? Color.red.opacity(0.14) : Color.clear)
+                            : (isHovered ? Color.primary.opacity(0.08) : Color.clear)
                     )
                     .overlay(
                         Circle()
                             .strokeBorder(
                                 destructive && isHovered
                                     ? Color.red.opacity(0.3)
-                                    : Color.white.opacity(
-                                        isHovered ? 0.25 : 0.15
-                                    ),
+                                    : Color.clear,
                                 lineWidth: 1
                             )
                     )
@@ -38,6 +39,7 @@ struct ControlCenterIconButton: View {
                     .foregroundStyle(destructive && isHovered ? .red : .primary)
             }
             .frame(width: 44, height: 44)
+            .clipShape(Circle())
             .scaleEffect(isPressed ? 0.95 : 1.0)
         }
         .buttonStyle(.plain)

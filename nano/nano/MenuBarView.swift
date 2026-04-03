@@ -17,14 +17,7 @@ struct MenuBarView: View {
                     history: memoryMonitor.cpuHistory
                 )
             }
-            .background(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .fill(Color.secondary.opacity(0.08))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
-            )
+            .nanoMaterialCard(cornerRadius: 14)
 
             // Memory Stats Card
             VStack(spacing: 0) {
@@ -34,14 +27,7 @@ struct MenuBarView: View {
                     memoryHistory: memoryMonitor.memoryHistory
                 )
             }
-            .background(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .fill(Color.secondary.opacity(0.08))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
-            )
+            .nanoMaterialCard(cornerRadius: 14)
 
             // Battery Stats Card
             VStack(spacing: 0) {
@@ -52,14 +38,7 @@ struct MenuBarView: View {
                     uptime: memoryMonitor.systemUptime
                 )
             }
-            .background(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .fill(Color.secondary.opacity(0.08))
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 14, style: .continuous)
-                    .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
-            )
+            .nanoMaterialCard(cornerRadius: 14)
 
             // Settings Card (if showing)
             if showingSettings {
@@ -83,14 +62,7 @@ struct MenuBarView: View {
                     .focusable(false)
                 }
                 .padding(16)
-                .background(
-                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .fill(Color.secondary.opacity(0.08))
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                        .strokeBorder(Color.white.opacity(0.15), lineWidth: 1)
-                )
+                .nanoMaterialCard(cornerRadius: 14)
                 .transition(
                     .asymmetric(
                         insertion: .scale(scale: 0.95, anchor: .top).combined(
